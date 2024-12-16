@@ -1,0 +1,89 @@
+# Yaml file to define the consts of the game
+
+GAME_NAME: 'ThunderBirds'
+
+# Format Files
+LEVEL_FILE_EXTENSION: '.level'
+RECORD_FILE_EXTENSION: '.record'
+
+# Directory Game Files Paths
+LEVELS_DIR_PATH: 'levels'
+RECORDS_DIR_PATH: 'records'
+
+# Game Sleep Times
+SHORT_SLEEP: 0.1
+LONG_SLEEP: 1
+
+# Game Objects Sizes
+BIG_SHIP_SIZE: 4
+SMALL_SHIP_SIZE: 2
+PORTAL_SIZE: 1
+
+# Available Colors
+ALL_COLORS:
+  - red
+  - green
+  - yellow
+  - blue
+  - magenta
+  - cyan
+  - white
+  - grey
+  - light_red
+  - light_green
+  - light_yellow
+  - light_blue
+  - light_magenta
+  - light_cyan
+  - black
+
+# Game Rules
+RULES: |
+  The game starts with three lives per level.
+  Each mistake in the game will result in the level restarting and one life being deducted.
+  Each level has a certain time limit to complete the level.
+  If the level is not completed within this time, it is considered a foul.
+
+  Game Objects:
+  - Big Ship
+  - Small Ship
+  - Block Numbers
+  - Block Letters
+  - Wall
+  - Portal
+
+  The goal is to reach the portal with both ships. The walls in the game cannot be moved.
+  The ships can push blocks if their mass is greater than the block's mass.
+  The big ship can push block letters, and the small ship can push block numbers.
+
+  The mass of the block is determined by the number of pixels in the object.
+  The big ship has 10 mass, and the small ship has 5 mass.
+
+  If a block falls onto a ship and its mass is greater, it is considered a foul.
+  However, if the block's mass is smaller than the current power of the ship, the block will move in the direction of the ship.
+
+  If the external walls of the game have a hole on both sides of the board game limit,
+  it will be an option to move from one side of the wall to the other.
+
+  The game can be controlled using the following keys:
+  - a: Move left
+  - d: Move right
+  - w: Move up
+  - s: Move down
+  - g: Switch ship
+
+# Game Settings
+FPS: 30
+HEARTS: 3
+TIME: 90
+
+# Game Watch Settings
+GAME_SPEED:
+  DEFAULT_SPEED: 1
+  MIN_SPEED: 0.5
+  MAX_SPEED: 2
+
+SPEED_STEPS: 2
+
+# Records File Settings
+MAX_RECORDS_FILES: 8
