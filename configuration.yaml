@@ -1,0 +1,27 @@
+# Yaml file to define settings configuration for the game
+
+# Board Limits
+ROWS: 30
+COLS: 90
+
+# Game Objects Colors
+WALL_SIGN_COLOR: 'grey'
+BIG_SHIP_SIGN_COLOR: 'cyan'
+SMALL_SHIP_SIGN_COLOR: 'light_yellow'
+BLOCK_SIGN_LETTERS_COLOR: 'magenta'
+BLOCK_SIGN_NUMBERS_COLOR: 'light_blue'
+PORTAL_SIGN: 'light_green'  # TODO -> change to PORTAL_SIGN_COLOR
+
+# Game Information Colors
+TIME_COLOR: 'yellow'
+HEARTS_COLORS: 'red'
+HEADER_COLOR: 'green'
+
+# Keyboard Settings
+KEYBOARD_BUTTONS:
+  SHIP_SWITCH: 'g'
+  UP: 'w'
+  DOWN: 's'
+  LEFT: 'a'
+  RIGHT: 'd'
+
