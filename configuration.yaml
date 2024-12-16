@@ -14,7 +14,7 @@ PORTAL_SIGN: 'light_green'  # TODO -> change to PORTAL_SIGN_COLOR
 
 # Game Information Colors
 TIME_COLOR: 'yellow'
-HEARTS_COLORS: 'red'
+HEARTS_COLOR: 'red'
 HEADER_COLOR: 'green'
 
 # Keyboard Settings
