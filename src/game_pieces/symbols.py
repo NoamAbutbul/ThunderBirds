@@ -41,6 +41,33 @@ class ViewSymbol(Enum):
         ret_value = view_to_logic_symbol_dict.get(logic_sign, logic_sign)
         return ret_value
 
+    def get_color_by_sign(view_sign: str) -> str:
+        """Gets view sign and match for it the color.
+
+        Args:
+            view_sign (str): view sign to give its color
+
+        Returns:
+            str: right color by the sign
+        """
+        current_item_color = ""
+        # TODO -> Check if this work with .value in the GameObjectColor elements
+        view_symbol_color_dict = {
+            ViewSymbol.WALL_VERTICAL.value: GameObjectColor.WALL.value,
+            ViewSymbol.WALL_HORIZONTAL_UP.value: GameObjectColor.WALL.value,
+            ViewSymbol.WALL_HORIZONTAL_DOWN.value: GameObjectColor.WALL.value,
+            ViewSymbol.BIG_SHIP.value: GameObjectColor.BIG_SHIP.value,
+            ViewSymbol.SMALL_SHIP.value: GameObjectColor.SMALL_SHIP.value,
+            ViewSymbol.PORTAL.value: GameObjectColor.PORTAL.value
+        }
+        if view_sign in view_symbol_color_dict.keys():
+            current_item_color = view_symbol_color_dict[view_sign]
+        elif view_sign in ViewSymbol.BLOCK_LETTERS.value:
+            current_item_color = GameObjectColor.BLOCK_LETTERS.value
+        elif view_sign in ViewSymbol.BLOCK_NUMBERS.value:
+            current_item_color = GameObjectColor.BLOCK_NUMBERS.value
+        return current_item_color
+
 
 class LogicSymbol(Enum):
     """Enum that represent logic symbol of game object. """
