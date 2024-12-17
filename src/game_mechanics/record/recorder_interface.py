@@ -1,12 +1,12 @@
 """
-    File to define the RecordInterface of the game.
+    File to define the RecorderInterface of the game.
 """
 
 
 from abc import ABC, abstractmethod
 
 
-class RecordInterface(ABC):
+class RecorderInterface(ABC):
     """Define base recorder interface to the game. """
 
     @abstractmethod
