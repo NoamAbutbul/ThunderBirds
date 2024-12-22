@@ -76,4 +76,73 @@ class RecordMenu(Menu):
 
     def show(self) -> None:
         """Show the record menu to the client. """
-        # TODO -> implement
+        self.output_manager.clear_output()
+        self.show_header()
+        self.show_records_games()
+        self.__pointer.show()
+        self.output_manager.print_at(
+            self.__exit, 34, 37, self.output_manager.Color.RED)
+
+    def show_header(self) -> None:
+        """Showing the header of the game. """
+        self.output_manager.show_text_animation(
+            "Records", 21, 8, 0.05, self.output_manager.Color.CYAN)
+
+    def show_records_games(self) -> None:
+        """Showing all records games available. """
+        line_index = RecordMenu.FILENAME_X_POSITION
+        for filename in self.__records_filenames:
+            self.output_manager.print_at(os.path.basename(
+                filename), line_index, RecordMenu.FILENAME_Y_POSITION, self.output_manager.Color.YELLOW)
+
+    def activate(self) -> Status:
+        """Activate the record menu.
+            start listen to user input and handle it.
+
+        Returns:
+            Status: status for the user input
+        """
+        self.init_records_files()
+        self.init_callbacks_and_pointer()
+        self.status = Status.NULL
+        self.show()
+        self.__pointer.activate()
+        buttons = self.input_manager.get_buttons()
+
+        def handle_input(key: str) -> None:
+            """Callback to handle user input.
+
+            Args:
+                key (str): key from the user input
+            """
+            statuses = {
+                buttons.EXIT.value: Status.EXIT
+            }
+            if key in statuses:
+                self.status = statuses[key]
+
+        self.hook = self.input_manager.start_listening(handle_input)
+
+        while (self.status == Status.NULL):
+            pass
+
+        self.deactivate()
+        return self.status
+
+    def play_record(self, record_name: str) -> None:
+        """Play record selected.
+
+        Args:
+            record_name (str): record name to play
+        """
+        logger.info(f"Playing record: {record_name}")
+        self.current_record_file = record_name
+        self.status = Status.PLAY_RECORD
+
+    def deactivate(self) -> None:
+        """Deactivate the record menu. 
+            release all resources.
+        """
+        self.input_manager.stop_listening(self.hook)
+        self.output_manager.clear_output()
+        self.__pointer.deactivate()
