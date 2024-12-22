@@ -84,7 +84,7 @@ class RecordMenu(Menu):
             self.__exit, 34, 37, self.output_manager.Color.RED)
 
     def show_header(self) -> None:
-        """Showing the header of the game. """
+        """Showing the header of the record menu. """
         self.output_manager.show_text_animation(
             "Records", 21, 8, 0.05, self.output_manager.Color.CYAN)
 
