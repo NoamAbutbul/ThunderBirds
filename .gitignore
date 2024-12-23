@@ -2,3 +2,4 @@
 setup_ThunderBirds.egg-info
 game_log.log
 **/__pycache__/
+.vscode
