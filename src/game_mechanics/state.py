@@ -226,6 +226,7 @@ class State:
         """
         neighbors = self.get_game_objects_in_my_direction(
             game_object, direction)
+
         if neighbors == []:
             need_to_move.insert(0, game_object)
             self.check_carry_game_objects_above(
@@ -266,7 +267,7 @@ class State:
             direction (Direction): move direction
             need_to_move (list[GameObject]): list of all game objects that need to move in that direction
         """
-        if direction in [Direction.UP, direction.DOWN]:
+        if direction in [Direction.UP, Direction.DOWN]:
             return
         game_objects_above = self.get_game_objects_in_my_direction(
             game_object, Direction.UP)

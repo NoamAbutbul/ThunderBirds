@@ -11,7 +11,7 @@ from src.game_pieces import LogicSymbol, GameObject, Point, Direction, MoveStatu
 from src.game_pieces.game_objects import Ship, Block, Wall, Portal
 
 
-@pytest.fixture(autouse=False)
+@pytest.fixture(autouse=True)
 def clear_log():
     """Clear logger before the test. """
     logger.clear()
@@ -47,7 +47,7 @@ def init_state(state_instance: State) -> tuple[GameObject]:
     block_numbers_location = [Point(5, 4), Point(5, 5)]
     block_numbers_object = Block(block_numbers_location, '7', len(block_numbers_location))
     state_instance.put_object(block_numbers_object)
-    block_letters_location = [Point(10, 23), Point(11, 23), Point(13, 23), Point(14, 23)]
+    block_letters_location = [Point(10, 23), Point(11, 23), Point(12, 23), Point(13, 23), Point(14, 23)]
     block_letters_object = Block(block_letters_location, 'R', len(block_letters_location))
     state_instance.put_object(block_letters_object)
     portal_location = [Point(12, 26)]
@@ -180,8 +180,89 @@ def test_get_game_objects_in_my_direction(state_instance: State, init_state: tup
     assert block_numbers_object not in game_objects_in_my_direction
 
 
+def test_move_game_object(state_instance: State, init_state: tuple[GameObject]) -> None:
+    """Testing move_game_object function.
+
+    Args:
+        state_instance (State): state instance fixture
+        init_state (tuple[GameObject]): big ship, small ship, block numbers, block letters, portal
+    """
+    big_ship_object, _, _, _, _ = init_state
+    source_location = big_ship_object.copied_location
+    dest_location = [Point(1, 3), Point(2, 3), Point(3, 3), Point(2, 4)]
+    state_instance.move_game_object(big_ship_object.symbol, big_ship_object.location, dest_location)
+    for point in source_location:
+        if point != Point(2, 3) and point != Point(3, 3):
+            assert state_instance.board[point.x][point.y] == LogicSymbol.BLANK.value
+    for point in dest_location:
+        assert state_instance.board[point.x][point.y] == LogicSymbol.BIG_SHIP.value
 
 
+def test_get_game_object_by_point(state_instance: State, init_state: tuple[GameObject]) -> None:
+    """Testing get_game_object_by_point function.
+
+    Args:
+        state_instance (State): state instance fixture
+        init_state (tuple[GameObject]): big ship, small ship, block numbers, block letters, portal
+    """
+    big_ship_object, small_ship_object, block_numbers_object, block_letters_object, portal_object = init_state
+    game_objects = {big_ship_object, small_ship_object, block_numbers_object, block_letters_object, portal_object}
+    for game_object in game_objects:
+        for point in game_object.location:
+            assert state_instance.get_game_object_by_point(point) == game_object
+
+    for row in range(ROWS):
+        for col in range(COLS):
+            current_point = Point(row, col)
+            if any(current_point in game_object.location for game_object in game_objects):
+                continue
+            if (col == 0) or (col == COLS - 1) or (row == 0) or (row == ROWS - 1):
+                assert state_instance.get_game_object_by_point(current_point).type == GameObjectType.WALL
+                continue
+            assert state_instance.get_game_object_by_point(current_point) == LogicSymbol.BLANK.value
+
+def test_can_move(state_instance: State, init_state: tuple[GameObject]) -> None:
+    """Testing can_move function.
+
+    Args:
+        state_instance (State): state instance fixture
+        init_state (tuple[GameObject]): big ship, small ship, block numbers, block letters, portal
+    """
+    big_ship_object, small_ship_object, block_numbers_object, _, _ = init_state
+    logger.log_board("board", state_instance.board)
+
+    def assert_move_status(game_object: GameObject, direction: Direction, excepted_status: MoveStatus, excepted_need_to_move: list[GameObject] = None) -> None:
+        """Helper function to assert can_move output function.
+
+        Args:
+            game_object (GameObject): game object to check
+            direction (Direction): direction to check
+            excepted_status (MoveStatus): excepted status output from can_move function
+            excepted_need_to_move (list[GameObject], optional): excepted need_to_move list after can_move function. Defaults to None.
+        """
+        need_to_move: list[GameObject] = []
+        move_status = state_instance.can_move(game_object, [game_object.mass], game_object, direction, need_to_move)
+        assert move_status == excepted_status
+        if excepted_need_to_move is not None:
+            assert need_to_move == excepted_need_to_move
+
+    assert_move_status(big_ship_object, Direction.LEFT, MoveStatus.CAN_MOVE, [big_ship_object])
+    assert_move_status(big_ship_object, Direction.DOWN, MoveStatus.CAN_MOVE, [big_ship_object])
+    assert_move_status(big_ship_object, Direction.UP, MoveStatus.CAN_MOVE, [big_ship_object])
+    assert_move_status(big_ship_object, Direction.RIGHT, MoveStatus.CANNOT_MOVE)
+    assert_move_status(small_ship_object, Direction.RIGHT, MoveStatus.VICTORY)
+    assert_move_status(small_ship_object, Direction.DOWN, MoveStatus.CAN_MOVE, [small_ship_object])
+    assert_move_status(small_ship_object, Direction.UP, MoveStatus.CAN_MOVE, [small_ship_object])
+    assert_move_status(small_ship_object, Direction.LEFT, MoveStatus.CANNOT_MOVE)
+    assert_move_status(block_numbers_object, Direction.DOWN, MoveStatus.CAN_MOVE, [block_numbers_object])
+    assert_move_status(block_numbers_object, Direction.RIGHT, MoveStatus.CAN_MOVE, [block_numbers_object])
+    assert_move_status(block_numbers_object, Direction.UP, MoveStatus.CAN_MOVE, [block_numbers_object])
+    assert_move_status(block_numbers_object, Direction.LEFT, MoveStatus.CANNOT_MOVE)
+
+    dest = [Point(6, 4), Point(7, 4), Point(8, 4), Point(9, 4)]
+    state_instance.move_game_object(big_ship_object.symbol, big_ship_object.copied_location, dest)
+    block_numbers_object.mass = big_ship_object.mass + 1
+    assert_move_status(block_numbers_object, Direction.DOWN, MoveStatus.REDUCE_LIFE)
 
 
 
