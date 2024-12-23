@@ -295,7 +295,7 @@ class Game:
         elif move_status == MoveStatus.CAN_MOVE:
             self.handle_move_case(need_to_move, direction)
         elif move_status == MoveStatus.VICTORY:
-            self.handle_victory()
+            self.handle_victory(game_object)
 
     def handle_victory(self, game_object: GameObject) -> None:
         """Handle for victory case to game_object

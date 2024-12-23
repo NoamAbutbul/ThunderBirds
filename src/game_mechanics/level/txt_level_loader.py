@@ -39,7 +39,7 @@ class TxtLevelLoader(LevelLoaderInterface):
         """
         self.path_validation(level_path)
         with open(level_path, 'r') as file:
-            level_matrix = [list(line.rstrip('\n') for line in file)]
+            level_matrix = [list(line.rstrip('\n')) for line in file]
         self.level_board_validation(level_matrix)
         return level_matrix
 
@@ -83,7 +83,7 @@ class TxtLevelLoader(LevelLoaderInterface):
             raise LevelSizeError(
                 f"The level has wrong number of rows\nHas {len(board)}, instead of {ROWS}")
         for row in range(ROWS):
-            if len(board[row] != COLS):
+            if len(board[row]) != COLS:
                 raise LevelSizeError(
                     f"The level has wrong number of cols -> In line {row+1}, Has {len(board[row])}, instead of {COLS}")
 

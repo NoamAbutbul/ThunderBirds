@@ -12,15 +12,15 @@ class ViewSymbol(Enum):
     """Enum that represent view symbol of game object. """
     BIG_SHIP = "@"
     SMALL_SHIP = "%"
-    WALL_VERTICAL = "?"  # TODO -> find the original symbol
-    WALL_HORIZONTAL_UP = "?"  # TODO -> find the original symbol
-    WALL_HORIZONTAL_DOWN = "?"  # TODO -> find the original symbol
+    WALL_VERTICAL = "█"
+    WALL_HORIZONTAL_UP = "█"
+    WALL_HORIZONTAL_DOWN = "█"
     BLANK = " "
-    PORTAL = "?"  # TODO -> find the original symbol
+    PORTAL = "▶"
     BLOCK_LETTERS = list(string.ascii_letters)
     BLOCK_NUMBERS = [str(value) for value in range(10)]
-    HEART = "<>"  # TODO -> find the original symbol
-    POINTER = ">"  # TODO -> find the original symbol
+    HEART = "♥"
+    POINTER = "▶"
 
     def get_value_by_logic_sign(logic_sign: str) -> str:
         """Gets logic sign and classify its to view symbol value.

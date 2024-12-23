@@ -176,7 +176,7 @@ class IOManager:
             float: seconds of the actions
         """
         start_time = time.time()
-        self.__menubar.update_time()
+        self.__menubar.update_time(new_time)
         end_time = time.time()
         return end_time - start_time
 

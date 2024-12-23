@@ -75,7 +75,7 @@ class Timer:
             if not self.__is_paused:
                 self.__time_counter += 1
                 remaining_time = self.__total_time - self.__time_counter
-                update_action_time = update_action_time(remaining_time)
+                update_action_time = update_output_time(remaining_time)
                 if update_action_time < 1:
                     time.sleep(1 - update_action_time)
             if self.__is_paused:
