@@ -72,7 +72,7 @@ class State:
         return self.__current_player
 
     @property
-    def ship_amount(self) -> int:
+    def ships_amount(self) -> int:
         return self.__ships_amount
 
     def init_blank_board(self) -> None:
