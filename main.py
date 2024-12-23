@@ -4,8 +4,12 @@
 """
 
 
+from src.game_mechanics.controller import Controller
+
+
 def main() -> None:
-    ...
+    controller = Controller()
+    controller.run_game()
 
 
 if __name__ == "__main__":
