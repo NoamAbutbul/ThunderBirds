@@ -46,12 +46,11 @@ class ViewSymbol(Enum):
 
         Args:
             view_sign (str): view sign to give its color
-
+xw
         Returns:
             str: right color by the sign
         """
         current_item_color = ""
-        # TODO -> Check if this work with .value in the GameObjectColor elements
         view_symbol_color_dict = {
             ViewSymbol.WALL_VERTICAL.value: GameObjectColor.WALL.value,
             ViewSymbol.WALL_HORIZONTAL_UP.value: GameObjectColor.WALL.value,
